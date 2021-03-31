@@ -1,41 +1,25 @@
-function getTimeRemaining(endtime) {
-  var t = Date.parse(endtime) - Date.parse(new Date());
-  var seconds = Math.floor((t / 1000) % 60);
-  var minutes = Math.floor((t / 1000 / 60) % 60);
-  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-  var days = Math.floor(t / (1000 * 60 * 60 * 24));
-  return {
-    'total': t,
-    'days': days,
-    'hours': hours,
-    'minutes': minutes,
-    'seconds': seconds
-  };
+var countDate = new Date('Mar 31 2021 00:00:00').getTime();
+
+function EndsEvents(){
+  var now = new Date().getTime();
+  gap = countDate - now;
+
+  var det = 1000;
+  var men = det * 60;
+  var jm = men * 60;
+  var har = jm * 24;
+
+  var h = Math.floor(gap / (har));
+  var j = Math.floor( (gap % (har)) / (jm) );
+  var m = Math.floor( (gap % (jm)) / (men) );
+  var d = Math.floor( (gap % (men)) / (det) );
+
+  document.getElementById('countdown__days').innerText = h;
+  document.getElementById('countdown__hours').innerText = j;
+  document.getElementById('countdown__minutes').innerText = m;
+  document.getElementById('countdown__seconds').innerText = d;
 }
 
-function initializeClock(id, endtime) {
-  var clock = document.getElementById(id);
-  var daysSpan = clock.querySelector('.countdown__days');
-  var hoursSpan = clock.querySelector('.countdown__hours');
-  var minutesSpan = clock.querySelector('.countdown__minutes');
-  var secondsSpan = clock.querySelector('.countdown__seconds');
-
-  function updateClock() {
-    var t = getTimeRemaining(endtime);
-
-    daysSpan.innerHTML = t.days;
-    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-
-    if (t.total <= 0) {
-      clearInterval(timeinterval);
-    }
-  }
-
-  updateClock();
-  var timeinterval = setInterval(updateClock, 1000);
-}
-
-var deadline = new Date(Date.parse(new Date()) + 15 * 24 * 60 * 60 * 1000);
-initializeClock('countdown__timer', deadline);
+setInterval( function(){
+  EndsEvents();
+}, 1000);
